@@ -1,0 +1,275 @@
+diff -Naur Source_original/Atmod1.cpp Source/Atmod1.cpp
+--- Source_original/Atmod1.cpp	2016-11-29 13:16:22.000000000 -0500
++++ Source/Atmod1.cpp	2018-08-17 13:32:30.947057000 -0400
+@@ -112,7 +112,7 @@
+ }
+ 
+ 
+-void Atm1::initdata()
++void Atm1::initdata(string home_directory, string name_list, string epoch)
+ {
+ 
+ 	//The member function initdata, of the Atmod Class, that initializes the data
+@@ -121,10 +121,10 @@
+ 	string namefile;
+ 
+ 	//Output statement displayed when program is executed.
+-	cout << "Earth-GRAM 2016" << '\n';
++	// cout << "Earth-GRAM 2016" << '\n';
+ 
+ 	//Call the namelist function from the Init Class for user-defined inputs.
+-	msisa.maps.perts.iperts.inits1.namelist();
++	msisa.maps.perts.iperts.inits1.namelist(home_directory, name_list, epoch);
+ 
+ 	//Variable namefile for saving namefile directory and file name 
+ 	namefile = msisa.maps.perts.iperts.inits1.home +
+@@ -135,7 +135,7 @@
+ 	mn = msisa.maps.perts.iperts.inits1.mn;
+ 
+ 	//Output statement when GRAM initialization begins.
+-	cout << "GRAM Initialization" << '\n';
++	// cout << "GRAM Initialization" << '\n';
+ 
+ 	//Call the init1 member function from the Init class to initialize the 
+ 	//atmosdat data into arrays.
+@@ -159,7 +159,7 @@
+ 	msisa.maps.perts.iperts.mets.namelist(namefile);
+ 	msisa.jb2008.namelist(namefile);
+ 	msisa.namelist(namefile);
+-
++/*
+ 	//File open for the "special.txt" and "species.txt" output files.
+ 	string nppath = msisa.maps.perts.iperts.inits1.home + msisa.maps.perts.iperts.inits1.nprpath;
+ 	string conpath = msisa.maps.perts.iperts.inits1.home + msisa.maps.perts.iperts.inits1.conpath;
+@@ -174,7 +174,7 @@
+ 		"  EWmean"
+ 		"   NSmean   DensPert   PresPert    Tpert   EWpert  NSpert SDden% SDprs% "
+ 		"SDtemK SDuwnd SDvwnd SDwwnd Wpert SpdAvg  SpdStd SOSmean SOSpert Sev" << '\n';
+-
++*/
+ }
+ 
+ void Atm1::initpert()
+@@ -1397,7 +1397,7 @@
+ 			else {
+ 				hgtd = hgtp / (1.0 + hgtp*dtz1 / tmean - hgtp*dmdz1 / wtmol);
+ 			}
+-
++/*
+ 			//Output species concentration data to "species.txt"
+ 			species << fixed << setw(9) << setprecision(3) << h << setw(8) << setprecision(3) <<
+ 				phi << setw(9) << setprecision(3) << thet << scientific << setw(12) << setprecision(3) <<
+@@ -1445,7 +1445,7 @@
+ 				spdgh << setw(7) << setprecision(2) << sdsph << setw(8) << setprecision(2) <<
+ 				csp0 << setw(8) << setprecision(2) << csp << setw(4) << msisa.maps.perts.isev <<
+ 				'\n';
+-
++*/
+ 			//Process data for Output data to Output.txt
+ 
+ 			//stdatm member function from Atmod Class to calculate standard atmosphere
+@@ -1501,7 +1501,7 @@
+ 
+ 
+ 
+-			msisa.maps.perts.iperts.inits1.out << fixed << setw(9) << setprecision(3) << h
++			/*msisa.maps.perts.iperts.inits1.out << fixed << setw(9) << setprecision(3) << h
+ 				<< setw(8) << phi << setw(9) << thet << scientific << setw(11) << pmean <<
+ 				setw(12) << dmean << fixed << setw(7) << setprecision(1) << tmean <<
+ 				setw(7) << umean << setw(7) << vmean << setw(7) << setprecision(3) <<
+@@ -1536,7 +1536,7 @@
+ 				setw(20) << rhp << "%" << " H2O" << '\n' << setw(37) << scientific << setprecision(3) <<
+ 				seoft << setw(12) << srhov << fixed << setprecision(1) << setw(7) << stdd << setw(20) <<
+ 				srhp << "%" << " sigH" <<
+-				'\n';
++				'\n';*/
+ 
+ 
+ 			*dmout = dmean;
+@@ -1970,7 +1970,7 @@
+ 		else {
+ 			hgtd = hgtp / (1.0 + hgtp*dtz1 / tmean - hgtp*dmdz1 / wtmol);
+ 		}
+-
++/*
+ 		//Output species concentration data to "species.txt"
+ 		species << fixed << setw(9) << setprecision(3) << h << setw(8) << setprecision(3) <<
+ 			phi << setw(9) << setprecision(3) << thet << scientific << setw(12) << setprecision(3) <<
+@@ -2018,7 +2018,7 @@
+ 			spdgh << setw(7) << setprecision(2) << sdsph << setw(8) << setprecision(2) <<
+ 			csp0 << setw(8) << setprecision(2) << csp << setw(4) << msisa.maps.perts.isev <<
+ 			'\n';
+-
++*/
+ 		//Process data for Output data to Output.txt
+ 
+ 		//stdatm member function from Atmod Class to calculate standard atmosphere
+@@ -2067,7 +2067,7 @@
+ 
+ 		msisa.maps.perts.iperts.rras.geocenttogeodet(ri*cos(phir), ri*sin(phir),
+ 			&gdlat, &gdhgt, req, rpo);
+-
++/*
+ 		msisa.maps.perts.iperts.inits1.out << "-------- ------- -------- --------- ---------- ------ ------ ------ ------ ----" << '\n';
+ 
+ 		msisa.maps.perts.iperts.inits1.out << fixed << setw(9) << setprecision(3) << h
+@@ -2106,7 +2106,7 @@
+ 			seoft << setw(12) << srhov << fixed << setprecision(1) << setw(7) << stdd << setw(20) <<
+ 			srhp << "%" << " sigH" <<
+ 			'\n';
+-
++*/
+ 		*dmout = dmean;
+ 		*pmout = pmean;
+ 		*tmout = tmean;
+@@ -2143,11 +2143,6 @@
+ 	time1 = time;
+ 
+ 	
+-
+-	
+-
+-	
+-	
+ }
+ 
+ /*int main(){
+diff -Naur Source_original/Atmod1.h Source/Atmod1.h
+--- Source_original/Atmod1.h	2016-11-29 13:16:46.000000000 -0500
++++ Source/Atmod1.h	2018-08-17 15:22:35.330669000 -0400
+@@ -23,7 +23,7 @@
+ 	ofstream output;
+ 	ofstream species;
+ 	ofstream out1;
+-	void initdata();
++	void initdata(string home_directory, string name_list, string epoch); // Modified: added string input
+ 	void initpert();
+ 	void pert();
+ 	void map();
+diff -Naur Source_original/Atmod.cpp Source/Atmod.cpp
+--- Source_original/Atmod.cpp	2016-11-29 13:15:32.000000000 -0500
++++ Source/Atmod.cpp	2018-08-16 14:32:25.976563000 -0400
+@@ -113,7 +113,7 @@
+ }
+ 
+ 
+-void Atm::initdata()
++void Atm::initdata(string home_directory, string name_list)
+ {
+ 
+ 	//The member function initdata, of the Atmod Class, that initializes the data
+@@ -125,7 +125,7 @@
+ 	cout << "Earth-GRAM 2016" << '\n';
+ 
+ 	//Call the namelist function from the Init Class for user-defined inputs.
+-	msisa.maps.perts.iperts.inits1.namelist();
++	msisa.maps.perts.iperts.inits1.namelist(home_directory, name_list);
+ 
+ 	//Variable namefile for saving namefile directory and file name 
+ 	namefile = msisa.maps.perts.iperts.inits1.home +
+diff -Naur Source_original/Init.cpp Source/Init.cpp
+--- Source_original/Init.cpp	2016-11-29 13:20:08.000000000 -0500
++++ Source/Init.cpp	2018-08-17 15:48:11.013700000 -0400
+@@ -378,7 +378,7 @@
+ {
+ 
+ 	//init1 member function from Init class
+-	//Loads in the data for the specific month form the "atmosdat" data file
++	//Loads in the data for the specific month from the "atmosdat" data file
+ 
+ 	using namespace std;
+ 	int n, j, i, ish, ip[5], id[5], it[5], k;
+@@ -1108,7 +1108,7 @@
+ 
+ 	//outopen member function from Init class
+ 	//Opens output.txt file and write info to file
+-
++/*
+ 	string outp = home + prtpath;
+ 
+ 	out.open(outp.c_str());
+@@ -1128,13 +1128,13 @@
+ 	out << " humidity in percent.  Zeroes for H2O indicate no estimate available." << '\n';
+ 	out << " E-W wind positive toward East; N-S wind positive toward North." << '\n';
+ 	out << '\n';
+-
++*/
+ 
+ 
+ }
+ 
+ 
+-void Init::namelist()
++void Init::namelist(string home_directory, string name_list, string epoch)
+ {
+ 
+ 	//namelist member function from Init class
+@@ -1145,15 +1145,21 @@
+ 	string dummy, NCEPmn;
+ 	string mn1 = "12";
+ 
++	// Parse epoch
++	iyr = std::stoi(epoch.substr(0,4));
++    mn = std::stoi(epoch.substr(5,2));
++    ida = std::stoi(epoch.substr(8,2));
+ 	
+ 
+ 	NCEPmn = "Nb9008" + mn1 + ".bin";
+ 
+-	cout << "Enter directory:" << '\n';
++/*	cout << "Enter directory:" << '\n';
+ 	getline(cin, home);
+ 
+ 	cout << "Enter filename:" << '\n';
+-	getline(cin, namelst);
++	getline(cin, namelst);*/
++	home = home_directory;
++	namelst = name_list;
+ 
+ 	string namel = home + namelst;
+ 	namelist.open(namel.c_str());
+@@ -1216,11 +1222,17 @@
+ 
+ 	namelist >> dummy >> dummy >> dstdtc;
+ 
+-	namelist >> dummy >> dummy >> mn;
++	namelist >> dummy >> dummy >> dummy;
++
++	namelist >> dummy >> dummy >> dummy;
++
++	namelist >> dummy >> dummy >> dummy;
++
++	// namelist >> dummy >> dummy >> mn;
+ 
+-	namelist >> dummy >> dummy >> ida;
++	// namelist >> dummy >> dummy >> ida;
+ 
+-	namelist >> dummy >> dummy >> iyr;
++	// namelist >> dummy >> dummy >> iyr;
+ 
+ 	namelist >> dummy >> dummy >> ihro;
+ 
+diff -Naur Source_original/Init.h Source/Init.h
+--- Source_original/Init.h	2016-11-29 13:19:38.000000000 -0500
++++ Source/Init.h	2018-08-17 15:23:06.279032000 -0400
+@@ -20,7 +20,7 @@
+ 	void init1(int month);
+ 	void traj();
+ 	void trajopen();
+-	void namelist();
++	void namelist(string home_directory, string name_list, string epoch);
+ 	void outopen();
+ 	float ***psp, ***dsp, ***tsp, ***usp, ***vsp, **pg, **dg, **tg, **ug;
+ 	float **pr, **dr, **tr, **ur, **vr, **plp, **dlp, **tlp, **ulp, **vlp;
+diff -Naur Source_original/NCEP.cpp Source/NCEP.cpp
+--- Source_original/NCEP.cpp	2016-11-29 13:25:00.000000000 -0500
++++ Source/NCEP.cpp	2018-08-16 14:48:27.128062000 -0400
+@@ -421,7 +421,7 @@
+ 
+ 	ifstream file;
+ 
+-	cout << "Reading NCEP data" << '\n';
++	// cout << "Reading NCEP data" << '\n';
+ 
+ 	file.open(NCEPpath1.c_str(), ios::in | ios::binary | ios::ate);
+ 
