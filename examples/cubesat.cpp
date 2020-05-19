@@ -9,10 +9,10 @@ using namespace unit;
 int main() {
 
     // Define paths to the meta-kernel, geopotential model and EarthGRAM lib
-    std::string meta_kernel(R"(/Users/sylvain/Developer/SatOps/assets/kernels.tm)");
-    std::string geopot_model_path(R"(/Users/sylvain/Developer/SatOps/assets/EGM2008_to2190_TideFree)");
-    std::string geomag_model_path(R"(/Users/sylvain/Developer/SatOps/assets/igrf13coeffs.txt)");
-    std::string earthgram_path(R"(/Users/sylvain/Developer/SatOps/extern/earthGRAM2016/)");
+    std::string meta_kernel(R"(/Users/sylvain/Developer/satops/assets/kernels.tm)");
+    std::string geopot_model_path(R"(/Users/sylvain/Developer/satops/assets/EGM2008_to2190_TideFree)");
+    std::string geomag_model_path(R"(/Users/sylvain/Developer/satops/assets/igrf13coeffs.txt)");
+    std::string earthgram_path(R"(/Users/sylvain/Developer/satops/extern/earthGRAM2016/)");
 
     // Create a Sim object to load the SPICE kernels
     Sim sim(meta_kernel);
