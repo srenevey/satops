@@ -64,12 +64,14 @@ public:
      * @return StateVector where the position and velocity are expressed in the given frame.
      */
     [[nodiscard]] StateVector transformToFrame(ReferenceFrame frame) const;
+
+    /** Computes the infinity norm of the state vector. */
     [[nodiscard]] double normInf() const;
 
     /** Normalizes the quaternion describing the orientation of the spacecraft. */
     void normalizeQuaternion();
 
-    double operator[](int i) const;
+    double operator[](std::size_t i) const;
     StateVector& operator+=(const StateVector& state);
     StateVector& operator*=(double a);
     friend StateVector operator+(const StateVector& state1, const StateVector& state2);
@@ -96,7 +98,7 @@ namespace boost::numeric::odeint {
         typedef double result_type;
         double operator()( const StateVector &state ) const
         {
-            return std::max(std::max(state.position().normInf(), state.velocity().normInf()), std::max(state.orientation().normInf(), state.angVelocity().normInf()));
+            return state.normInf();
         }
     };
 }

@@ -139,8 +139,7 @@ StateVector StateVector::transformToFrame(ReferenceFrame frame) const {
 }
 
 double StateVector::normInf() const {
-    return std::max(std::max(m_position.normInf(), m_velocity.normInf()), std::max(m_orientation.normInf(),
-                                                                                   m_ang_velocity.normInf()));
+    return std::max(std::max(m_position.normInf(), m_velocity.normInf()), std::max(m_orientation.normInf(), m_ang_velocity.normInf()));
 }
 
 void StateVector::normalizeQuaternion() {
@@ -148,7 +147,7 @@ void StateVector::normalizeQuaternion() {
 }
 
 
-double StateVector::operator[](int i) const {
+double StateVector::operator[](std::size_t i) const {
     if (i < 3)
         return m_position[i];
     else if (i < 6)
