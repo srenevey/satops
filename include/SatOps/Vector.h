@@ -261,9 +261,23 @@ public:
         }
     }
 
-
     std::size_t size() const {
         return N;
+    }
+
+    static Vector constant(double value) {
+        std::array<double,N> data;
+        for (std::size_t i = 0; i < N; ++i)
+            data[i] = value;
+        return Vector(ReferenceFrame::NONE, data);
+    }
+
+    static Vector zeros() {
+        return constant(0.);
+    }
+
+    static Vector ones() {
+        return constant(1.0);
     }
 
 protected:

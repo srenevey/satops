@@ -260,3 +260,24 @@ TEST(TestVector, MatProd) {
         EXPECT_NEAR(prod2[i], exp2[i], 1E-12);
     }
 }
+
+TEST(TestVector, Constant) {
+    Vector<double, 9> v = Vector<double,9>::constant(-11.85);
+    for (std::size_t i = 0; i < v.size(); ++i) {
+        EXPECT_DOUBLE_EQ(v[i], -11.85);
+    }
+}
+
+TEST(TestVector, Zeros) {
+    Vector<double, 7> v = Vector<double,7>::zeros();
+    for (std::size_t i = 0; i < v.size(); ++i) {
+        EXPECT_DOUBLE_EQ(v[i], 0.);
+    }
+}
+
+TEST(TestVector, Ones) {
+    Vector<double, 9> v = Vector<double,9>::ones();
+    for (std::size_t i = 0; i < v.size(); ++i) {
+        EXPECT_DOUBLE_EQ(v[i], 1.);
+    }
+}
