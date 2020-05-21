@@ -65,6 +65,12 @@ public:
      */
     [[nodiscard]] StateVector transformToFrame(ReferenceFrame frame) const;
 
+    /** Computes the position in geodetic coordinates.
+     *
+     * @return Vector containing the geodetic latitude (rad), geodetic longitude (rad), and altitude above the reference spheroid (km).
+     */
+    [[nodiscard]] Vector3d computeGeodeticCoord() const;
+
     /** Computes the infinity norm of the state vector. */
     [[nodiscard]] double normInf() const;
 

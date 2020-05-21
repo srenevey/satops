@@ -138,6 +138,15 @@ StateVector StateVector::transformToFrame(ReferenceFrame frame) const {
     return StateVector(m_ephemeris_time, pos_out, vel_out, m_orientation, m_ang_velocity);
 }
 
+Vector3d StateVector::computeGeodeticCoord() const {
+    StateVector itrf93_state = this->transformToFrame(ReferenceFrame::ITRF93);
+    Vector3<dimension::Distance> itrf93_position = itrf93_state.position();
+    SpiceDouble lon = 0.0, lat = 0.0, alt = 0.0;
+    SpiceDouble ecef_position[3] = {itrf93_position[0], itrf93_position[1], itrf93_position[2]};
+    recgeo_c(ecef_position, constants::R_EARTH, constants::EARTH_FLATTENING, &lon, &lat, &alt);
+    return Vector3d({lat, lon, alt});
+}
+
 double StateVector::normInf() const {
     return std::max(std::max(m_position.normInf(), m_velocity.normInf()), std::max(m_orientation.normInf(), m_ang_velocity.normInf()));
 }

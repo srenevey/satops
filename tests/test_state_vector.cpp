@@ -141,3 +141,29 @@ TEST(TestStateVector, Abs) {
         EXPECT_DOUBLE_EQ(state_abs[i], exp[i]);
     }
 }
+
+TEST(TestStateVector, ComputeGeodeticCoord) {
+    std::string meta_kernel(R"(/Users/sylvain/Developer/satops/assets/kernels.tm)");
+    Sim sim(meta_kernel);
+
+    std::string epoch = "2020-05-21 16:18:24";
+    Vector3<dimension::Distance> position(ReferenceFrame::ITRF93, {-7009.22977_km, 356.45_km, -1877.9_km});
+    Vector3<dimension::Velocity> velocity(ReferenceFrame::ITRF93, {0.0_kms, -7.0033_kms, 3.2657_kms});
+    Quaternion orientation(ReferenceFrame::J2000, 0.34, -0.89, 0.45, 0.71);
+    Vector3<dimension::AngularVelocity> angular_velocity(ReferenceFrame::BODY, {-0.2_degs, 0.0_degs, -0.1_degs});
+    StateVector state(epoch, position, velocity, orientation, angular_velocity);
+    Vector3d geodetic_coord = state.computeGeodeticCoord();
+
+    Vector3d exp({-0.262923108342161, 3.090782049883596, 8.884796039663423E+02});
+    for (std::size_t i = 0; i < 3; ++i) {
+        EXPECT_NEAR(geodetic_coord[i], exp[i], 1E-12);
+    }
+
+    position = Vector3<dimension::Distance>(ReferenceFrame::ITRF93, {13921.21449_km, -2481.4194_km, -11853.3492_km});
+    state.setPosition(position);
+    geodetic_coord = state.computeGeodeticCoord();
+    exp = Vector3d({-0.698772490083819, -0.176394761342321, 12082.237613403966495});
+    for (std::size_t i = 0; i < 3; ++i) {
+        EXPECT_NEAR(geodetic_coord[i], exp[i], 1E-12);
+    }
+}
