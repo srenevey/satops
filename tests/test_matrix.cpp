@@ -66,3 +66,29 @@ TEST(TestMatrix, MatMul) {
         }
     }
 }
+
+TEST(TestMatrix, Add) {
+    Matrix<double, 4, 3> m1({{{3.1, 4., -9.2}, {-3.2, 1.65, 3.2}, {0.8, -7.5, 3.7}, {-10.4, 6.42, 1.4}}});
+    Matrix<double, 4, 3> m2({{{6.7, 0.2, -4.1}, {8.5, -12.5, 11.2}, {3.9, -0.5, 1.1}, {-22.53, 7.53, -9.75}}});
+    Matrix<double, 4, 3> sum = m1 + m2;
+    Matrix<double, 4, 3> exp({{{9.8, 4.2, -13.3}, {5.3, -10.85, 14.4}, {4.7, -8.0, 4.8}, {-32.93, 13.95, -8.35}}});
+    std::pair<std::size_t, std::size_t> dim = sum.size();
+    for (std::size_t i = 0; i < dim.first; ++i) {
+        for (std::size_t j = 0; j < dim.second; ++j) {
+            EXPECT_DOUBLE_EQ(sum[i][j], exp[i][j]);
+        }
+    }
+}
+
+TEST(TestMatrix, Sub) {
+    Matrix<double, 4, 3> m1({{{3.1, 4., -9.2}, {-3.2, 1.65, 3.2}, {0.8, -7.5, 3.7}, {-10.4, 6.42, 1.4}}});
+    Matrix<double, 4, 3> m2({{{6.7, 0.2, -4.1}, {8.5, -12.5, 11.2}, {3.9, -0.5, 1.1}, {-22.53, 7.53, -9.75}}});
+    Matrix<double, 4, 3> sub = m1 - m2;
+    Matrix<double, 4, 3> exp({{{-3.6, 3.8, -5.1}, {-11.7, 14.15, -8.0}, {-3.1, -7.0, 2.6}, {12.13, -1.11, 11.15}}});
+    std::pair<std::size_t, std::size_t> dim = sub.size();
+    for (std::size_t i = 0; i < dim.first; ++i) {
+        for (std::size_t j = 0; j < dim.second; ++j) {
+            EXPECT_DOUBLE_EQ(sub[i][j], exp[i][j]);
+        }
+    }
+}

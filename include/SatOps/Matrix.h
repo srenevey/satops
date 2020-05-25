@@ -55,6 +55,26 @@ public:
         return a * m;
     }
 
+    friend Matrix operator+(const Matrix& m1, const Matrix& m2) {
+        std::array<std::array<T, N>, M> data;
+        for (std::size_t i = 0; i < M; ++i) {
+            for (std::size_t j = 0; j < N; ++j) {
+                data[i][j] = m1[i][j] + m2[i][j];
+            }
+        }
+        return Matrix(data);
+    }
+
+    friend Matrix operator-(const Matrix& m1, const Matrix& m2) {
+        std::array<std::array<T, N>, M> data;
+        for (std::size_t i = 0; i < M; ++i) {
+            for (std::size_t j = 0; j < N; ++j) {
+                data[i][j] = m1[i][j] - m2[i][j];
+            }
+        }
+        return Matrix(data);
+    }
+
     [[nodiscard]] Matrix inverse() const {
         if (M != N)
             throw std::invalid_argument("Matrix: the inverse of an M-by-N matrix is not defined.");
