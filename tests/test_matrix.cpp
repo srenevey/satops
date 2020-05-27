@@ -92,3 +92,47 @@ TEST(TestMatrix, Sub) {
         }
     }
 }
+
+TEST(TestMatrix, Zeros) {
+    Matrix<double, 5, 4> m = Matrix<double, 5, 4>::zeros();
+    Matrix<double, 5, 4> exp({{{0., 0., 0., 0.}, {0., 0., 0., 0.}, {0., 0., 0., 0.}, {0., 0., 0., 0.}, {0., 0., 0., 0.}}});
+    std::pair<std::size_t, std::size_t> dim = m.size();
+    for (std::size_t i = 0; i < dim.first; ++i) {
+        for (std::size_t j = 0; j < dim.second; ++j) {
+            EXPECT_DOUBLE_EQ(m[i][j], exp[i][j]);
+        }
+    }
+}
+
+TEST(TestMatrix, Eye) {
+    Matrix<double, 5, 4> m = Matrix<double, 5, 4>::eye();
+    Matrix<double, 5, 4> exp({{{1., 0., 0., 0.}, {0., 1., 0., 0.}, {0., 0., 1., 0.}, {0., 0., 0., 1.}, {0., 0., 0., 0.}}});
+    std::pair<std::size_t, std::size_t> dim = m.size();
+    for (std::size_t i = 0; i < dim.first; ++i) {
+        for (std::size_t j = 0; j < dim.second; ++j) {
+            EXPECT_DOUBLE_EQ(m[i][j], exp[i][j]);
+        }
+    }
+}
+
+TEST(TestMatrix, Diag) {
+    Matrix<double, 5, 4> m = Matrix<double, 5, 4>::diag({2.0, -4.5, 1.2, 0.9});
+    Matrix<double, 5, 4> exp({{{2.0, 0., 0., 0.}, {0., -4.5, 0., 0.}, {0., 0., 1.2, 0.}, {0., 0., 0., 0.9}, {0., 0., 0., 0.}}});
+    std::pair<std::size_t, std::size_t> dim = m.size();
+    for (std::size_t i = 0; i < dim.first; ++i) {
+        for (std::size_t j = 0; j < dim.second; ++j) {
+            EXPECT_DOUBLE_EQ(m[i][j], exp[i][j]);
+        }
+    }
+}
+
+TEST(TestMatrix, Fill) {
+    Matrix<double, 5, 4> m = Matrix<double, 5, 4>::fill(-8.3);
+    Matrix<double, 5, 4> exp({{{-8.3, -8.3, -8.3, -8.3}, {-8.3, -8.3, -8.3, -8.3}, {-8.3, -8.3, -8.3, -8.3}, {-8.3, -8.3, -8.3, -8.3}, {-8.3, -8.3, -8.3, -8.3}}});
+    std::pair<std::size_t, std::size_t> dim = m.size();
+    for (std::size_t i = 0; i < dim.first; ++i) {
+        for (std::size_t j = 0; j < dim.second; ++j) {
+            EXPECT_DOUBLE_EQ(m[i][j], exp[i][j]);
+        }
+    }
+}

@@ -150,6 +150,34 @@ public:
         return Matrix<T,N,M>(data);
     }
 
+    static Matrix zeros() {
+        return Matrix();
+    }
+
+    static Matrix eye() {
+        std::array<T, M> data;
+        data.fill(T(1.0));
+        return diag(data);
+    }
+
+    static Matrix diag(std::array<T, M> values) {
+        Matrix m;
+        for (std::size_t i = 0; i < M; ++i) {
+            m[i][i] = values[i];
+        }
+        return m;
+    }
+
+    static Matrix fill(T value) {
+        Matrix m;
+        for (std::size_t i = 0; i < M; ++i) {
+            for (std::size_t j = 0; j < N; ++j) {
+                m[i][j] = value;
+            }
+        }
+        return m;
+    }
+
 private:
     std::array<std::array<T, N>, M> m_data;
 };
