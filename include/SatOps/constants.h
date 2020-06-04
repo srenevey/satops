@@ -115,24 +115,34 @@ namespace constants {
 	 *  @{
 	 */
     /** Gravitational parameter in km<sup>3</sup> / s<sup>2</sup>. **/
-	constexpr static double MU_EARTH_EGM08 = 398600.4415;
+    constexpr static double MU_EARTH_EGM08 = 398600.4415;
     /** Earth equatorial radius in km. **/
     constexpr static double R_EARTH_EGM08 = 6378.1363;
     /** @} */
 
+    /** \defgroup GEM-10 GEM-10 parameters
+     *  Parameters for the GEM-10 geopotential model.
+     *  @{
+     */
+    /** Gravitational parameter in km<sup>3</sup> / s<sup>2</sup>. **/
+    constexpr static double MU_EARTH_GEM10 = 398600.47;
+    /** Earth equatorial radius in km. **/
+    constexpr static double R_EARTH_GEM10 = 6378.139;
+    /** @} */
 
-    /** \defgroup IGRF_COEFF Magnetic field coefficients
+
+    /** \defgroup IGRF_COEFF IGRF-13 parameters
      * Coefficients used for the Earth's magnetic field modeled as a magnetic dipole.
      * @{
      */
      /** Earth equatorial radius in km */
-    constexpr static double IGRF_2020_RADIUS = 6371.2;
-    /** IGRF 2020 g coefficient of degree 0 and order 1, in Tesla */
-	constexpr static double IGRF_2020_G01 = -29404.8E-9;
-    /** IGRF 2020 g coefficient of degree 1 and order 1, in Tesla */
-    constexpr static double IGRF_2020_G11 = -1450.9E-9;
-    /** IGRF 2020 h coefficient of degree 1 and order 1, in Tesla */
-    constexpr static double IGRF_2020_H11 = 4652.5E-9; // T
+    constexpr static double IGRF13_RADIUS = 6371.2;
+    /** IGRF-13 g coefficient of degree 0 and order 1, in Tesla */
+	constexpr static double IGRF13_G01 = -29404.8E-9;
+    /** IGRF-13 g coefficient of degree 1 and order 1, in Tesla */
+    constexpr static double IGRF13_G11 = -1450.9E-9;
+    /** IGRF-13 h coefficient of degree 1 and order 1, in Tesla */
+    constexpr static double IGRF13_H11 = 4652.5E-9; // T
 	/** @} */
 }
 

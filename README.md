@@ -6,7 +6,7 @@ Note: the propagator is still a work in progress and has not been validated yet.
 
 ## Prerequisites
 
-The C++ propagator uses the EGM2008 geopotential model, the EarthGRAM2016 atmospheric model, the IGRF magnetic model, as well as several kernels used with the Naif SPICE toolbox for the planetary ephemerides. These models should be downloaded before compiling the library.
+The C++ propagator uses the EGM2008 geopotential model, the EarthGRAM2016 atmospheric model, the IGRF-13 magnetic model, as well as several kernels used with the Naif SPICE toolbox for the planetary ephemerides. These models should be downloaded before compiling the library.
 
 ### Geopotential model
 The EGM2008 model can be downloaded [here](http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008/first_release.html). Download the model *Spherical Harmonic Coefficients for Earth's Gravitational Potential - "Tide Free" system* and then extract it. Place the file *EGM2008_to2190_TideFree* into *assets*.
@@ -25,8 +25,8 @@ SatOps
 |   tests
 ```
 
-### Atmosphere model
-EarthGRAM2016 can be requested from the [NASA Software Catalog](https://software.nasa.gov/software/MFS-32780-2). Unzip the archive and place it in the *extern* folder
+### Atmospheric model
+The library currently supports an exponentially decaying atmosphere (provided) or NASA's Earth Global Reference Atmospheric Model 2016 (EarthGRAM2016). The model can be requested from the [NASA Software Catalog](https://software.nasa.gov/software/MFS-32780-2). Unzip the archive and place it in the *extern* folder
 
 ```
 SatOps
@@ -158,7 +158,7 @@ These kernels will be loaded by SPICE through a meta-kernel. The following conte
 
 ### Geomagnetic Model
 
-The International Geomagnetic Reference Field (IGRF) is used to model the Earth magnetic field. The text file containing the coefficients can be downloaded [here](https://www.ngdc.noaa.gov/IAGA/vmod/igrf.html) and should be placed in the *assets* folder alongside the other models. The IGRF-13 version is provided in this repository.
+The 13th generation International Geomagnetic Reference Field (IGRF-13) is used to model the Earth magnetic field. The spherical harmonic coefficients are provided in the file located in *assets*.
 
 
 ## Compilation

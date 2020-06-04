@@ -1,9 +1,12 @@
 set(HEADER_LIST
-        "${SatOps_SOURCE_DIR}/include/SatOps/AtmModel.h"
+        "${SatOps_SOURCE_DIR}/include/SatOps/Atmosphere.h"
         "${SatOps_SOURCE_DIR}/include/SatOps/Body.h"
         "${SatOps_SOURCE_DIR}/include/SatOps/constants.h"
         "${SatOps_SOURCE_DIR}/include/SatOps/Dimensions.h"
         "${SatOps_SOURCE_DIR}/include/SatOps/EnvironmentModel.h"
+        "${SatOps_SOURCE_DIR}/include/SatOps/GravitationalField.h"
+        "${SatOps_SOURCE_DIR}/include/SatOps/Gyroscope.h"
+        "${SatOps_SOURCE_DIR}/include/SatOps/MagneticField.h"
         "${SatOps_SOURCE_DIR}/include/SatOps/Magnetometer.h"
         "${SatOps_SOURCE_DIR}/include/SatOps/Matrix.h"
         "${SatOps_SOURCE_DIR}/include/SatOps/Quaternion.h"
@@ -25,6 +28,7 @@ set(HEADER_LIST
         dimensions/Velocity.h
         EqMotion.h
         Integrator.h
+        PotentialField.h
         transformations.h)
 
 set(SRCS_LIST
@@ -37,13 +41,18 @@ set(SRCS_LIST
         dimensions/Mass.cpp
         dimensions/Time.cpp
         dimensions/Velocity.cpp
+        Atmosphere.cpp
         EnvironmentModel.cpp
         EqMotion.cpp
+        GravitationalField.cpp
+        Gyroscope.cpp
         Integrator.cpp
+        MagneticField.cpp
         Magnetometer.cpp
         Quaternion.cpp
         Sim.cpp
         Spacecraft.cpp
+        PotentialField.cpp
         StateVector.cpp)
 
 # Make library

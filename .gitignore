@@ -1,6 +1,8 @@
+.DS_Store
 .idea/
 cmake-*
 extern/
 assets/EGM2008_to2190_TideFree
+assets/igrf13coeffs_modified.txt
 assets/kernels
 

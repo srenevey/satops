@@ -10,7 +10,14 @@ extern "C" {
 #include "SpiceUsr.h"
 };
 
-StateVector::StateVector(): m_frame(ReferenceFrame::NONE), m_ephemeris_time(0.0), m_position(Vector3<dimension::Distance>()), m_velocity(Vector3<dimension::Velocity>()), m_orientation(Quaternion()), m_ang_velocity(Vector3<dimension::AngularVelocity>()) {}
+StateVector::StateVector()
+    :
+    m_frame(ReferenceFrame::NONE),
+    m_ephemeris_time(0.0),
+    m_position(Vector3<dimension::Distance>()),
+    m_velocity(Vector3<dimension::Velocity>()),
+    m_orientation(Quaternion()),
+    m_ang_velocity(Vector3<dimension::AngularVelocity>()) {}
 
 StateVector::StateVector(double ephemeris_time, Vector3<dimension::Distance> position, Vector3<dimension::Velocity> velocity, Quaternion orientation, Vector3<dimension::AngularVelocity> ang_velocity) :
         m_ephemeris_time(ephemeris_time),

@@ -25,15 +25,15 @@ void EqMotion::operator()(StateVector &state, StateVector &state_derivative, dou
     state.setTime(et);
     state.normalizeQuaternion();
 
-    // Two-body acceleration
-    double factor = -m_env_model.centralBody().mu() / pow(state.position().norm(), 3);
-    Vector3<dimension::Acceleration> a_kepler(state.frame(), {factor * state[0], factor * state[1], factor * state[2]});
 
-    // Geopotential
-    Vector3<dimension::Acceleration> a_geopot(state.frame());
+    // Gravitational acceleration
+    Vector3<dimension::Acceleration> a_grav(state.frame());
     Vector3d t_gg(ReferenceFrame::BODY);
-    if (m_env_model.gpDegree() > 1) {
-        geopotential(a_geopot, t_gg, state, et);
+    if (m_env_model.isGravityField()) {
+        geopotential(a_grav, t_gg, state, et);
+    } else {
+        double factor = -m_env_model.centralBody().mu() / pow(state.position().norm(), 3);
+        a_grav = factor * state.position();
     }
 
     // Third-body effect
@@ -62,7 +62,7 @@ void EqMotion::operator()(StateVector &state, StateVector &state_derivative, dou
         magneticPerturbations(t_mag, state, et);
     }
 
-    Vector3<dimension::Acceleration> a_total = a_kepler + a_geopot + a_third_body + a_aero + a_srp;
+    Vector3<dimension::Acceleration> a_total = a_grav + a_third_body + a_aero + a_srp;
     Vector3d torques = t_gg + t_aero + t_srp + t_mag;
 
     state_derivative.setPositionDerivative(state.velocity());
@@ -77,54 +77,15 @@ void EqMotion::operator()(StateVector &state, StateVector &state_derivative, dou
 
     // Attitude dynamics
     Vector3<dimension::AngularAcceleration> ang_acceleration(m_spacecraft.inertiaMatrix().inverse() * (torques -
-                                                                                                       state.angVelocity().cross(
-            m_spacecraft.inertiaMatrix() * state.angVelocity())));
+            state.angVelocity().cross(m_spacecraft.inertiaMatrix() * state.angVelocity())));
     state_derivative.setAngVelocityDerivative(ang_acceleration);
 }
 
 void EqMotion::geopotential(Vector3<dimension::Acceleration> &acc, Vector3d &torque, const StateVector &state, double et) const {
+    // Compute acceleration in the state's reference frame.
+    acc = m_env_model.computeGravAcc(state);
 
-    // Creates lambdas to retrieve C and S coefficients from the environment model
-    auto C = [&](int degree, int order) { return m_env_model.cCoeff(degree, order); };
-    auto S = [&](int degree, int order) { return m_env_model.sCoeff(degree, order); };
-
-    // Computes and retrieve the V and W coefficients
-    auto vw_coeffs = m_env_model.geopotHarmonicCoeff(state, et);
-    // Computes the getIndex for degree n and order m and creates lambda functions
-    auto index = [](int degree, int order) { return degree * (degree + 1) / 2 + order; };
-    auto V = [&](int degree, int order) { return vw_coeffs[index(degree, order)][0]; };
-    auto W = [&](int degree, int order) { return vw_coeffs[index(degree, order)][1]; };
-
-    // Computes the acceleration
-    Vector3<dimension::Acceleration> a_geopot(ReferenceFrame::ITRF93);
-
-    // n = degree, m = order
-    for (int n = 0; n < m_env_model.gpDegree() + 1; ++n) {
-        for (int m = 0; m < n + 1; ++m) {
-            double scale = 0;
-            if (m == 0) {
-                scale = sqrt((2 * n + 1));
-                a_geopot[0] += scale * constants::MU_EARTH_EGM08 / (constants::R_EARTH_EGM08 * constants::R_EARTH_EGM08) * (-C(n, 0) * V(n+1, 1));
-                a_geopot[1] += scale * constants::MU_EARTH_EGM08 / (constants::R_EARTH_EGM08 * constants::R_EARTH_EGM08) * (-C(n, 0) * W(n+1, 1));
-            } else {
-                scale = sqrt(2 * (2 * n + 1) * boost::math::factorial<double>(n-m) / boost::math::factorial<double>(n+m));
-                a_geopot[0] += scale * constants::MU_EARTH_EGM08 / (constants::R_EARTH_EGM08 * constants::R_EARTH_EGM08) * 0.5 *
-                               ((-C(n, m) * V(n+1, m+1) - S(n, m) * W(n+1, m+1)) +
-                                boost::math::factorial<double>(n-m+2) / boost::math::factorial<double>(n-m) *
-                                (C(n, m) * V(n+1, m-1) + S(n, m) * W(n+1, m-1)));
-                a_geopot[1] += scale * constants::MU_EARTH_EGM08 / (constants::R_EARTH_EGM08 * constants::R_EARTH_EGM08) * 0.5 *
-                               ((-C(n, m) * W(n+1, m+1) + S(n, m) * V(n+1, m+1)) +
-                                boost::math::factorial<double>(n-m+2) / boost::math::factorial<double>(n-m) *
-                                (-C(n, m) * W(n+1, m-1) + S(n, m) * V(n+1, m-1)));
-            }
-            a_geopot[2] += scale * constants::MU_EARTH_EGM08 / (constants::R_EARTH_EGM08 * constants::R_EARTH_EGM08) *
-                           ((n-m+1) * (-C(n, m) * V(n+1, m) - S(n, m) * W(n+1, m)));
-        }
-    }
-
-    // Rotates back to the original frame. Note: a_geopot already accounts for Coriolis, centripetal, etc. accelerations.
-    acc = transformations::rotateToFrame(a_geopot, state.frame(), et);
-
+    // Compute torque
     // Nadir-pointing vector in the body frame
     Vector3<dimension::Distance> nadir = state.position() / state.position().norm();
     Vector3<dimension::Distance> nadir_bff = transformations::rotateToFrame(nadir, ReferenceFrame::BODY, et,
@@ -136,7 +97,7 @@ void EqMotion::geopotential(Vector3<dimension::Acceleration> &acc, Vector3d &tor
 void EqMotion::drag(Vector3<dimension::Acceleration> &acc, Vector3d &torque, const StateVector &state, double et, double elapsed_time) const {
 
     // Retrieves atmospheric density
-    double density = m_env_model.atmDensity(state, elapsed_time, et);
+    double density = m_env_model.getAtmDensity(state, elapsed_time);
 
     // Computes the velocity relative to Earth's atmosphere
     Vector3<dimension::AngularVelocity> earth_ang_vel(ReferenceFrame::J2000, {0., 0., constants::EARTH_ANGULAR_VELOCITY});
@@ -158,8 +119,8 @@ void EqMotion::drag(Vector3<dimension::Acceleration> &acc, Vector3d &torque, con
 }
 
 void EqMotion::solarRadiationPressure(Vector3<dimension::Acceleration>& acc, Vector3d& torque, const StateVector& state, double et) const {
-    Vector3<dimension::Distance> r_sun2sc = m_env_model.sunSpacecraftVector(state, et);
-    double nu = m_env_model.isInShadow(state, et);
+    Vector3<dimension::Distance> r_sun2sc = m_env_model.sunSpacecraftVector(state);
+    double nu = m_env_model.isInShadow(state);
     double p_sr = (constants::SOLAR_PRESSURE * 1E-3) * constants::AU_TO_KM / r_sun2sc.norm(); // kg / (km s^2)
 
     Vector3<dimension::Distance> r_sc2sun_bff = transformations::rotateToFrame((-r_sun2sc) / r_sun2sc.norm(),
@@ -177,7 +138,7 @@ void EqMotion::solarRadiationPressure(Vector3<dimension::Acceleration>& acc, Vec
 
 void EqMotion::magneticPerturbations(Vector3d& torque, const StateVector& state, double et) const {
 
-    Vector3d B = m_env_model.magneticField(state, et);
+    Vector3d B = m_env_model.computeMagneticField(state);
     Vector3d B_bff = transformations::rotateToFrame(B, ReferenceFrame::BODY, et, state.orientation());
 
     torque = m_spacecraft.residualDipole().cross(B_bff);
@@ -187,7 +148,7 @@ void EqMotion::thirdBodyEffect(Vector3<dimension::Acceleration>& acc, const Stat
     auto bodies = m_env_model.thirdBodies();
 
     for (auto body: bodies) {
-        Vector3<dimension::Distance> r_cb2tb = m_env_model.bodyVector(body, et, state.frame()); // central body to third body
+        Vector3<dimension::Distance> r_cb2tb = m_env_model.getBodyPosition(body, et, state.frame()); // central body to third body
         Vector3<dimension::Distance> r_cb2sc = state.position(); // central body to spacecraft
         Vector3<dimension::Distance> r_sc2tb = r_cb2tb - r_cb2sc; // spacecraft to third body
 

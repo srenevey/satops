@@ -5,11 +5,14 @@
 #ifndef SATOPS_SATOPS_H
 #define SATOPS_SATOPS_H
 
-#include "AtmModel.h"
+#include "Atmosphere.h"
 #include "Body.h"
 #include "dimensions.h"
 #include "EnvironmentModel.h"
+#include "GravitationalField.h"
+#include "Gyroscope.h"
 #include "Magnetometer.h"
+#include "MagneticField.h"
 #include "Matrix.h"
 #include "Quaternion.h"
 #include "ReferenceFrame.h"

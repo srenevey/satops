@@ -18,7 +18,9 @@ public:
         Earth,
         Moon,
         Mars,
+        MarsBarycenter,
         Jupiter,
+        JupiterBarycenter,
         Saturn,
         Uranus,
         Neptune
@@ -53,6 +55,8 @@ public:
                 return constants::MU_URANUS;
             case Neptune:
                 return constants::MU_NEPTUNE;
+            default:
+                return 0.;
         }
     }
 
@@ -79,6 +83,8 @@ public:
                 return constants::R_URANUS;
             case Neptune:
                 return constants::R_NEPTUNE;
+            default:
+                return 0.;
         }
     }
 
@@ -97,8 +103,12 @@ public:
                 return 301;
             case Mars:
                 return 499;
+            case MarsBarycenter:
+                return 4;
             case Jupiter:
                 return 599;
+            case JupiterBarycenter:
+                return 5;
             case Saturn:
                 return 699;
             case Uranus:
@@ -123,8 +133,12 @@ public:
                 return "Moon";
             case Mars:
                 return "Mars";
+            case MarsBarycenter:
+                return "Mars Barycenter";
             case Jupiter:
                 return "Jupiter";
+            case JupiterBarycenter:
+                return "Jupiter Barycenter";
             case Saturn:
                 return "Saturn";
             case Uranus:
@@ -136,7 +150,6 @@ public:
 
 private:
     CelestialBody m_body;
-
 };
 
 
