@@ -23,7 +23,7 @@ namespace unit {
     // Base unit for accelerations used throughout the program is km/s^2.
     using namespace dimension;
     /** Creates an acceleration in kilometers per square second (km/s<sup>2</sup>). */
-    Acceleration operator "" _kms2(long double a);
+    Acceleration operator "" _kmps2(long double a);
 }
 
 #endif //SATOPS_ACCELERATION_H

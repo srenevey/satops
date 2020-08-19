@@ -8,19 +8,19 @@
 using namespace unit;
 
 TEST(TestDimensions, Acceleration) {
-    EXPECT_DOUBLE_EQ(34.5_kms2, 34.5);
-    EXPECT_DOUBLE_EQ(-154.9_kms2, -154.9);
+    EXPECT_DOUBLE_EQ(34.5_kmps2, 34.5);
+    EXPECT_DOUBLE_EQ(-154.9_kmps2, -154.9);
 }
 
 TEST(TestDimensions, AngularAcceleration) {
-    EXPECT_DOUBLE_EQ(2.31_rads2, 2.31);
-    EXPECT_DOUBLE_EQ(-1.65_rads2, -1.65);
+    EXPECT_DOUBLE_EQ(2.31_radps2, 2.31);
+    EXPECT_DOUBLE_EQ(-1.65_radps2, -1.65);
 }
 
 TEST(TestDimensions, AngularVelocity) {
-    EXPECT_DOUBLE_EQ(0.59_rads, 0.59);
-    EXPECT_NEAR(30.5_degs, 0.532325421858270, 1E-12);
-    EXPECT_NEAR(0.59_rads + 30.5_degs, 1.122325421858271, 1E-12);
+    EXPECT_DOUBLE_EQ(0.59_radps, 0.59);
+    EXPECT_NEAR(30.5_degps, 0.532325421858270, 1E-12);
+    EXPECT_NEAR(0.59_radps + 30.5_degps, 1.122325421858271, 1E-12);
 }
 
 TEST(TestDimensions, Area) {
@@ -79,14 +79,14 @@ TEST(TestDimensions, Time) {
 }
 
 TEST(TestDimensions, Velocity) {
-    EXPECT_DOUBLE_EQ(14.6_mms, 14.6E-6);
-    EXPECT_DOUBLE_EQ(-67.82_cms, -67.82E-5);
-    EXPECT_DOUBLE_EQ(188.91_ms, 188.91E-3);
-    EXPECT_DOUBLE_EQ(-894.5_kms, -894.5);
-    EXPECT_NEAR(80.0_kph, 0.022222222222222, 1E-12);
-    EXPECT_DOUBLE_EQ(125.3_mps, 2.01650302E+2);
-    EXPECT_NEAR(-89.5_mph, -0.040009980555556, 1E-12);
+    EXPECT_DOUBLE_EQ(14.6_mmps, 14.6E-6);
+    EXPECT_DOUBLE_EQ(-67.82_cmps, -67.82E-5);
+    EXPECT_DOUBLE_EQ(188.91_mps, 188.91E-3);
+    EXPECT_DOUBLE_EQ(-894.5_kmps, -894.5);
+    EXPECT_NEAR(80.0_kmph, 0.022222222222222, 1E-12);
+    EXPECT_DOUBLE_EQ(125.3_mips, 2.01650302E+2);
+    EXPECT_NEAR(-89.5_miph, -0.040009980555556, 1E-12);
 
-    dimension::Velocity vel(125.3_mps + 89.5_mph - 894.5_kms + 80.0_kph - 14.6_mms - 67.82_cms + 188.91_ms);
+    dimension::Velocity vel(125.3_mips + 89.5_miph - 894.5_kmps + 80.0_kmph - 14.6_mmps - 67.82_cmps + 188.91_mps);
     EXPECT_DOUBLE_EQ(vel, -6.925992485972222E+2);
 }

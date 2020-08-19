@@ -13,7 +13,7 @@ namespace unit {
     // Base unit for accelerations used throughout the program is km/s^2.
     using namespace dimension;
 
-    Acceleration operator "" _kms2(long double a) {
+    Acceleration operator "" _kmps2(long double a) {
         return Acceleration(a);
     }
 }

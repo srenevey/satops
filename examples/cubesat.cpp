@@ -33,9 +33,9 @@ int main() {
 
     // Create the initial state of the spacecraft
     Vector3<dimension::Distance> position(ReferenceFrame::J2000, {-7009.22977_km, 0.0_km, 0.0_km});
-    Vector3<dimension::Velocity> velocity(ReferenceFrame::J2000, {0.0_kms, -7.0033_kms, 3.2657_kms});
+    Vector3<dimension::Velocity> velocity(ReferenceFrame::J2000, {0.0_kmps, -7.0033_kmps, 3.2657_kmps});
     Quaternion orientation(ReferenceFrame::J2000, 0., 0., 0., 1.);
-    Vector3<dimension::AngularVelocity> angular_velocity(ReferenceFrame::BODY, {0.2_degs, 0.0_degs, 0.1_degs});
+    Vector3<dimension::AngularVelocity> angular_velocity(ReferenceFrame::BODY, {0.2_degps, 0.0_degps, 0.1_degps});
     StateVector initial_state(epoch, position, velocity, orientation, angular_velocity);
 
     // Model of a 1U CubeSat
@@ -43,7 +43,7 @@ int main() {
     dimension::Mass mass = 1.33_kg;
     dimension::Distance side = 0.1_m;
     double I_ii = mass * side * side / 6.;
-    Matrix3d inertia_matrix({{{I_ii, 0., 0.}, {0., I_ii, 0.}, {0., 0., I_ii}}});
+    Matrix3d inertia_matrix = Matrix3d::diag({I_ii, I_ii, I_ii});
     std::vector<Vector3d> face_normals;
     face_normals.push_back(Vector3d(ReferenceFrame::BODY, {1., 0., 0.}));
     face_normals.push_back(Vector3d(ReferenceFrame::BODY, {0., 1., 0.}));

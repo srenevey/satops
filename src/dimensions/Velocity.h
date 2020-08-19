@@ -23,19 +23,19 @@ namespace unit {
     // Base unit for velocities used throughout the program is km/s.
     using namespace dimension;
     /** Creates a velocity in milimeters per second (mm/s). */
-    Velocity operator "" _mms(long double d);
+    Velocity operator "" _mmps(long double d);
     /** Creates a velocity in centimeters per second (cm/s). */
-    Velocity operator "" _cms(long double d);
+    Velocity operator "" _cmps(long double d);
     /** Creates a velocity in meters per second (m/s). */
-    Velocity operator "" _ms(long double d);
-    /** Creates a velocity in kilometers per second (km/s). */
-    Velocity operator "" _kms(long double d);
-    /** Creates a velocity in kilometers per hour (km/h). */
-    Velocity operator "" _kph(long double d);
-    /** Creates a velocity in miles per second (mi/s). */
     Velocity operator "" _mps(long double d);
+    /** Creates a velocity in kilometers per second (km/s). */
+    Velocity operator "" _kmps(long double d);
+    /** Creates a velocity in kilometers per hour (km/h). */
+    Velocity operator "" _kmph(long double d);
+    /** Creates a velocity in miles per second (mi/s). */
+    Velocity operator "" _mips(long double d);
     /** Creates a velocity in miles per hour (mi/h). */
-    Velocity operator "" _mph(long double d);
+    Velocity operator "" _miph(long double d);
 }
 
 #endif //SATOPS_VELOCITY_H

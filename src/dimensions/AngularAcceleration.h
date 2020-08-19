@@ -23,7 +23,7 @@ namespace unit {
     // Base unit for angular accelerations used throughout the program is rad/s^2.
     using namespace dimension;
     /** Creates an angular acceleration in radians per square second (rad/s<sup>2</sup>). */
-    AngularAcceleration operator "" _rads2(long double a);
+    AngularAcceleration operator "" _radps2(long double a);
 }
 
 

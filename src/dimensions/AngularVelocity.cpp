@@ -12,11 +12,11 @@ namespace dimension {
 
 namespace unit {
     using namespace dimension;
-    AngularVelocity operator "" _rads(long double d) {
+    AngularVelocity operator "" _radps(long double d) {
         return AngularVelocity(d);
     }
 
-    AngularVelocity operator "" _degs(long double d) {
+    AngularVelocity operator "" _degps(long double d) {
         return AngularVelocity(constants::DEG_TO_RAD * d);
     }
 }

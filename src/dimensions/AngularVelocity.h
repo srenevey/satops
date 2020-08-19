@@ -24,9 +24,9 @@ namespace unit {
     using namespace dimension;
 
     /** Creates an angular velocity in radians per second (rad/s). */
-    AngularVelocity operator "" _rads(long double d);
+    AngularVelocity operator "" _radps(long double d);
     /** Creates an angular velocity in degrees per second (deg/s). */
-    AngularVelocity operator "" _degs(long double d);
+    AngularVelocity operator "" _degps(long double d);
 }
 
 
